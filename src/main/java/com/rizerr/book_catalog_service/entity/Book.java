@@ -16,8 +16,10 @@ import java.util.Set;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
+    private Long id;
     @Column(name = "isbn")
-    private Integer isbn;
+    private Long isbn;
     @Column(name = "title")
     private String title;
     @Column(name = "price")
@@ -28,4 +30,13 @@ public class Book {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Book(Long isbn, String title, Double price, Set<Author> author, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.isbn = isbn;
+        this.title = title;
+        this.price = price;
+        this.author = author;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }
