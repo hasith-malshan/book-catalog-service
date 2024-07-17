@@ -26,4 +26,9 @@ public class Author {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Author(String name, LocalDateTime createdAt) {
+        this.name = name;
+        this.createdAt = createdAt;
+    }
 }
