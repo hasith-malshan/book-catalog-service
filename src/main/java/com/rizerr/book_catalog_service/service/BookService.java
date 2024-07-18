@@ -1,9 +1,7 @@
 package com.rizerr.book_catalog_service.service;
 
 import com.rizerr.book_catalog_service.dao.BookDao;
-import com.rizerr.book_catalog_service.entity.Author;
 import com.rizerr.book_catalog_service.entity.Book;
-import com.rizerr.book_catalog_service.repository.AuthorRepository;
 import com.rizerr.book_catalog_service.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import java.util.Set;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
@@ -43,41 +40,19 @@ public class BookService {
             throw new IllegalStateException("You cannot add the same book Again");
         }
 
-        Author bookAuthor = getAuthor(bookDao);
-
         Book book = new Book(
                 bookDao.getIsbn(),
                 bookDao.getTitle(),
                 bookDao.getPrice(),
                 bookDao.getQuantity(),
-                bookAuthor,
+                bookDao.getAuthorName(),
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
 
-        Set<Book> booksOfAuthor = new HashSet<>();
-        booksOfAuthor.add(book);
-
-        bookAuthor.setBooks(booksOfAuthor);
-        authorRepository.save(bookAuthor);
-
         return bookRepository.save(book);
     }
 
-    private Author getAuthor(BookDao bookDao) {
-        boolean isAuthorAvailable = getAuthorByName(bookDao.getAuthorName()).isPresent();
-
-        if (isAuthorAvailable)
-            return getAuthorByName(bookDao.getAuthorName()).get();
-        else {
-            return authorRepository.save(new Author(bookDao.getAuthorName(), LocalDateTime.now()));
-        }
-
-    }
-
-    private Optional<Author> getAuthorByName(String author) {
-        return authorRepository.findByName(author);
-    }
 
     public void deleteBook(Long isbn) {
         boolean isBookPresent = findBookByIsbn(isbn).isPresent();
@@ -93,7 +68,7 @@ public class BookService {
         if (isBookPresent){
             Book bookTobeUpdated =findBookByIsbn(bookDao.getIsbn()).get();
             bookTobeUpdated.setTitle(bookDao.getTitle());
-            bookTobeUpdated.setAuthor(getAuthor(bookDao));
+            bookTobeUpdated.setAuthor(bookDao.getAuthorName());
             bookTobeUpdated.setUpdatedAt(LocalDateTime.now());
             return bookRepository.save(bookTobeUpdated);
         }else {

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Data
@@ -26,14 +25,13 @@ public class Book {
     private Double price;
     @Column(name = "quantity")
     private Integer quantity;
-    @ManyToOne
-    private Author author;
+    private String author;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Book(Long isbn, String title, Double price, Integer quantity, Author author, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Long isbn, String title, Double price, Integer quantity, String author, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.isbn = isbn;
         this.title = title;
         this.price = price;
