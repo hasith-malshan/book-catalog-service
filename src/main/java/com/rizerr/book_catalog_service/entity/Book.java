@@ -24,17 +24,20 @@ public class Book {
     private String title;
     @Column(name = "price")
     private Double price;
-    @ManyToMany(mappedBy = "books")
-    private Set<Author> author;
+    @Column(name = "quantity")
+    private Integer quantity;
+    @ManyToOne
+    private Author author;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Book(Long isbn, String title, Double price, Set<Author> author, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Long isbn, String title, Double price, Integer quantity, Author author, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.isbn = isbn;
         this.title = title;
         this.price = price;
+        this.quantity = quantity;
         this.author = author;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
