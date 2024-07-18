@@ -20,7 +20,7 @@ public class Author {
     private Integer id;
     @Column(name = "name")
     private String name;
-    @ManyToMany
+    @OneToMany(mappedBy = "author")
     private Set<Book> books;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
