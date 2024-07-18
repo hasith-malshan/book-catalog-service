@@ -16,6 +16,8 @@ public class BookDao {
     @NotNull
     private Double price;
     @NotNull
-    private String[] authorName;
+    private Integer quantity;
+    @NotNull
+    private String authorName;
 
 }
